@@ -1,16 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {SettingsService} from '../services/settings.service';
+
+// para declarar una funcion global que inicializa los plugins
+// tslint:disable-next-line:typedef
+declare function customInitFunctions();
 
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
-  styles: [
-  ]
+  styles: []
 })
-export class PagesComponent implements OnInit {
+export class PagesComponent implements OnInit{
 
-  constructor() { }
+
+  constructor(private settingsService: SettingsService) {
+  }
 
   ngOnInit(): void {
+    customInitFunctions();
   }
+
+
+
+
 
 }
