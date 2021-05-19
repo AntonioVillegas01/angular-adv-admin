@@ -9,7 +9,6 @@ export class SettingsService {
   private linkTheme = document.querySelector('#theme');
 
   constructor() {
-    console.log('Service constrictor');
     this.setTheme();
   }
 
