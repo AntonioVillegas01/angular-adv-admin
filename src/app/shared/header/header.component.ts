@@ -1,18 +1,23 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {UsuarioService} from '../../services/usuario.service';
+import {UsuarioModel} from '../../models/usuario.model';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styles: [
-  ]
+  styles: []
 })
 export class HeaderComponent {
 
-  constructor(private usuarioService: UsuarioService) { }
+  public usuario: UsuarioModel;
 
-  logout(){
-    this.usuarioService.logout()
+  constructor(private usuarioService: UsuarioService) {
+    this.usuario = usuarioService.usuario;
+  }
+
+
+  logout() {
+    this.usuarioService.logout();
   }
 
 
