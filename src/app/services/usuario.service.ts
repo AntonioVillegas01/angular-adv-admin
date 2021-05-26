@@ -7,6 +7,7 @@ import {RegisterFormInterface} from '../interfaces/register-form.interface';
 import {LoginFormInterface} from '../interfaces/login-form.interface';
 import {catchError, map, tap} from 'rxjs/operators';
 import {UsuarioModel} from '../models/usuario.model';
+import {CargarUsuariosInterface} from '../interfaces/cargar-usuarios.interface';
 
 
 declare const gapi: any;
@@ -39,7 +40,7 @@ export class UsuarioService {
       headers: {
         'x-token': this.token
       }
-    }
+    };
   }
 
   googleInit() {
@@ -122,5 +123,30 @@ export class UsuarioService {
           localStorage.setItem('token', resp.token);
         })
       );
+  }
+
+  cargarUsuarios(limit?: number, desde?: number): Observable<CargarUsuariosInterface> {
+    const url = `${this.baseUrl}/usuarios?limit=${limit}&desde=${desde}`;
+    return this.http.get<CargarUsuariosInterface>(url, this.headers)
+      .pipe(
+       // delay(3000),
+        map(resp => {
+          const usuarios = resp.usuarios.map(
+            user => new UsuarioModel(user.nombre, user.email, '', user.img, user.google, user.role, user.uid));
+          return {
+            total: resp.total,
+            usuarios
+          };
+        })
+      );
+  }
+  eliminarUsuario(usuario: UsuarioModel){
+    const url = `${this.baseUrl}/usuarios/${usuario.uid}`;
+    return this.http.delete(url, this.headers);
+  }
+
+  guardarUsuario(usuario: UsuarioModel) {
+
+    return this.http.put(`${this.baseUrl}/usuarios/${usuario.uid}`, usuario, this.headers);
   }
 }
