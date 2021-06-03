@@ -17,10 +17,6 @@ declare const gapi: any;
 })
 export class UsuarioService {
 
-  private baseUrl = environment.base_url;
-  public auth2: any;
-  public usuario: UsuarioModel;
-
   constructor(private http: HttpClient,
               private router: Router,
               private ngZone: NgZone) {
@@ -42,6 +38,11 @@ export class UsuarioService {
       }
     };
   }
+
+  private baseUrl = environment.base_url;
+  public auth2: any;
+  public usuario: UsuarioModel;
+
 
   googleInit() {
     return new Promise<void>(resolve => {
@@ -129,7 +130,7 @@ export class UsuarioService {
     const url = `${this.baseUrl}/usuarios?limit=${limit}&desde=${desde}`;
     return this.http.get<CargarUsuariosInterface>(url, this.headers)
       .pipe(
-       // delay(3000),
+        // delay(3000),
         map(resp => {
           const usuarios = resp.usuarios.map(
             user => new UsuarioModel(user.nombre, user.email, '', user.img, user.google, user.role, user.uid));
@@ -140,13 +141,14 @@ export class UsuarioService {
         })
       );
   }
-  eliminarUsuario(usuario: UsuarioModel){
+
+  eliminarUsuario(usuario: UsuarioModel) {
     const url = `${this.baseUrl}/usuarios/${usuario.uid}`;
     return this.http.delete(url, this.headers);
   }
 
   guardarUsuario(usuario: UsuarioModel) {
-
     return this.http.put(`${this.baseUrl}/usuarios/${usuario.uid}`, usuario, this.headers);
   }
+
 }

@@ -5,6 +5,8 @@ import {environment} from '../../environments/environment';
 import {pipe} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {UsuarioModel} from '../models/usuario.model';
+import {HospitalModel} from '../models/hospital.model';
+import {MedicoModel} from '../models/medico.model';
 
 const baseUrl = environment.base_url;
 
@@ -33,6 +35,12 @@ export class BusquedasService {
       user => new UsuarioModel(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
     );
   }
+  private transformarHospital(resultados: any[]): HospitalModel[] {
+    return resultados;
+  }
+  private transformarMedicos(resultados: any[]): MedicoModel[] {
+    return resultados;
+  }
 
   buscar(tipo: 'usuarios' | 'medicos' | 'hospitales', termino: string) {
     const url = `${baseUrl}/todo/coleccion/${tipo}/${termino}`;
@@ -44,8 +52,10 @@ export class BusquedasService {
             case 'usuarios':
              return  this.transformarUsuario(resp.resultados);
             case 'hospitales':
+              return  this.transformarHospital(resp.resultados);
               break;
             case 'medicos':
+              return  this.transformarMedicos(resp.resultados);
               break;
             default:
               return [];
