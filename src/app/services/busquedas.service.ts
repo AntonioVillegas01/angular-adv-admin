@@ -35,9 +35,11 @@ export class BusquedasService {
       user => new UsuarioModel(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
     );
   }
+
   private transformarHospital(resultados: any[]): HospitalModel[] {
     return resultados;
   }
+
   private transformarMedicos(resultados: any[]): MedicoModel[] {
     return resultados;
   }
@@ -50,17 +52,22 @@ export class BusquedasService {
           console.log(resp);
           switch (tipo) {
             case 'usuarios':
-             return  this.transformarUsuario(resp.resultados);
+              return this.transformarUsuario(resp.resultados);
             case 'hospitales':
-              return  this.transformarHospital(resp.resultados);
+              return this.transformarHospital(resp.resultados);
               break;
             case 'medicos':
-              return  this.transformarMedicos(resp.resultados);
+              return this.transformarMedicos(resp.resultados);
               break;
             default:
               return [];
           }
         })
       );
+  }
+
+  busquedaGlobal(termino: string) {
+    const url = `${baseUrl}/todo/${termino}`;
+    return this.http.get(url, this.headers)
   }
 }

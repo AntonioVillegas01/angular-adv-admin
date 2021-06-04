@@ -17,7 +17,7 @@
         </li>
         <li class="nav-devider"></li>
         <li class="nav-small-cap">PERSONAL</li>
-        <li *ngFor="let items of menuItems">
+        <li *ngFor="let items of sidebarService.menu">
           <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
             <i [className]="items.icono"></i>
             <span class="hide-menu">
